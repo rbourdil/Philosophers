@@ -25,7 +25,7 @@ static int	pause_exec(t_params *params, unsigned int pause_len)
 	else
 	{
 		if (time_left >= 0)
-			usleep(pause_len * 1000);
+			usleep(time_left * 1000);
 		return (1);
 	}
 }
@@ -106,11 +106,7 @@ void	*eat_sleep_think(void *args)
 		pause_exec(params, params->time_to_sleep);
 		if (print_action(params, THINK) == DEAD)
 			break ;
-		if (usleep(PAUSE) == -1)
-		{
-			perror("usleep");
-			exit(EXIT_FAILURE);
-		}
+		usleep(PAUSE);
 	}
 	return (params);
 }

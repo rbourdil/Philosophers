@@ -44,9 +44,10 @@ int	main(int argc, char *argv[])
 
 	if (argc < 5 || argc > 6)
 		err_abort("usage: ./philo number_of_philosophers time_to_die\
- time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+ time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\ntime_to_xxx are capped at 1000ms\n");
 	if (check_args(argc, argv) == -1)
-		err_abort("Invalid arguments\n");
+		err_abort("Invalid arguments\nAll arguments must be positive\
+ integers, and time_to_xxx arguments should not exceed 1000ms\n");
 	forks = init_forks(atoi(argv[1]));
 	if (forks == NULL)
 		err_abort("Mutex initialization failed\n");

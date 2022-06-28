@@ -27,7 +27,7 @@
 # define EAT 0x2
 # define SLEEP 0x4
 # define THINK 0x8
-# define PAUSE 999
+# define PAUSE 1500
 # define MAX_SLEEP "1000"
 # define INTMAX "2147483647"
 
