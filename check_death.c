@@ -1,0 +1,32 @@
+#include "philo.h"
+
+static void	end_simul(t_params *params)
+{
+	pthread_mutex_lock(&params->death_mutex);
+	params->death = 1;
+	pthread_mutex_unlock(&params->death_mutex);
+}
+
+void	*check_death(void *arg)
+{
+	t_params	*params;
+	int			i;
+
+	params = (t_params *)arg;
+	while (!everyone_done_eating(params))
+	{
+		i = 0;
+		while (i < params->nb_philos)
+		{
+			if (isdead(params, i))
+			{
+				printf("%d %d died\n", now() - params->start, i + 1);
+				return (NULL);
+			}
+			i++;
+		}
+		usleep(MICRO_PAUSE);
+	}
+	end_simul(params);
+	return (NULL);
+}

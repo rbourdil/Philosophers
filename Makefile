@@ -1,28 +1,26 @@
 NAME = philo
 
-OBJS = main.o init.o start.o time.o error.o check.o string.o alone.o
+OBJS = main.o init.o start.o eat_sleep_think.o check_death.o free.o utils.o error.o
 
-HEAD = philo.h
+HEADS = philo.h
 
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-RM = rm -f
-
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(OBJS) -pthread -o $(NAME)
+			$(CC) -pthread $(OBJS) -o $(NAME)
 
-$(OBJS):	%.o:%.c $(HEAD)
+$(OBJS):	%.o:%.c $(HEADS)
 			$(CC) $(CFLAGS) -pthread -c $< -o $@
 
 clean:
-			$(RM) $(OBJS)
+			rm -f $(OBJS)
 
 fclean:		clean
-			$(RM) $(NAME)
+			rm -f $(NAME)
 
 re:			fclean all
 

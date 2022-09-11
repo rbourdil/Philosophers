@@ -1,47 +1,67 @@
-#include "philo_bonus.h"
+#include "philo.h"
 
-t_args	*init_args(int argc, char *argv[])
+static void	init_command_line_params(t_params *params, int argc, char *argv[])
 {
-	t_args	*args;
-
-	args = (t_args *)malloc(sizeof(t_args));
-	if (args == NULL)
-		return (NULL);
-	args->nb_philos = atoi(argv[1]);
-	args->time_to_die = atoi(argv[2]);
-	args->time_to_eat = atoi(argv[3]);
-	args->time_to_sleep = atoi(argv[4]);
-	if (argc == 6)
-		args->eat_count = atoi(argv[5]);
+	params->time_to_die = atoi(argv[2]);
+	params->time_to_eat = atoi(argv[3]);
+	params->time_to_sleep = atoi(argv[4]);
+	if (argc > 5)
+		params->eat_count = atoi(argv[5]);
 	else
-		args->eat_count = -1;
-	return (args);
+		params->eat_count = -1;
 }
 
-t_common	*init_common(int nb_philos)
+static void	allocate_mem(t_params *params, int nb_philos)
 {
-	t_common *common;
+	params->time_of_death_mutexes = malloc(sizeof(pthread_mutex_t) * nb_philos);
+	if (params->time_of_death_mutexes == NULL)
+		print_exit("memory allocation failed\n");
+	params->time_of_death = malloc(sizeof(int) * nb_philos);
+	if (params->time_of_death == NULL)
+	{
+		free_params(params);
+		print_exit("memory allocation failed\n");
+	}
+	params->forks = malloc(sizeof(pthread_mutex_t) * nb_philos);
+	if (params->forks == NULL)
+	{
+		free_params(params);
+		print_exit("memory allocation failed\n");
+	}
+}
 
-	sem_unlink(DEAD_SEM);
-	sem_unlink(FORKS_SEM);
-	sem_unlink(WAITER_SEM);
-	common = (t_common *)malloc(sizeof(t_common));
-	if (common == NULL)
-		return (NULL);
-	common->dead_sem = sem_open(DEAD_SEM, O_CREAT, 0644, 1);
-	if (common->dead_sem == SEM_FAILED)
+static void	init_mutexes(t_params *params, int nb_philos)
+{
+	int	i;
+	int	status;
+
+	status = 0;
+	status += pthread_mutex_init(&params->death_mutex, NULL);
+	status += pthread_mutex_init(&params->nb_done_eating_mutex, NULL);
+	i = 0;
+	while (i < nb_philos)
 	{
-		free(common);
-		return (NULL);
+		status += pthread_mutex_init(&params->time_of_death_mutexes[i], NULL);
+		status += pthread_mutex_init(&params->forks[i], NULL);
+		i++;
 	}
-	common->forks = sem_open(FORKS_SEM, O_CREAT, 0644, nb_philos);
-	if (common->forks == SEM_FAILED)
+	if (status != 0)
 	{
-		sem_close(common->dead_sem);
-		free(common);
-		return (NULL);
+		destroy_mutexes(params);
+		free_params(params);
+		print_exit("mutex init failed");
 	}
-	common->waiter = sem_open(WAITER_SEM, O_CREAT, 0644, 1);
-	//security
-	return (common);
+}	
+
+void	init_params(t_params *params, int argc, char *argv[])
+{
+	int	nb_philos;
+
+	nb_philos = atoi(argv[1]);
+	params->nb_philos = nb_philos;
+	params->death = 0;
+	params->nb_done_eating = 0;
+	init_command_line_params(params, argc, argv);
+	allocate_mem(params, nb_philos);
+	init_mutexes(params, nb_philos);
 }
