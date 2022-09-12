@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat_sleep_think.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/12 17:27:40 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/09/12 18:07:35 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void	grab_forks(t_params *params, int id)
-{ if (id % 2 == 0)
+{
+	if (id % 2 == 0)
 		pthread_mutex_lock(&params->forks[id]);
 	else
 		pthread_mutex_lock(&params->forks[(id + 1) % params->nb_philos]);
@@ -30,6 +43,18 @@ static void	eat(t_params *params, int id)
 	release_forks(params, id);
 }
 
+static int	update_eat_count(int eat_count, t_params *params)
+{
+	if (eat_count > 0)
+		eat_count--;
+	if (eat_count == 0)
+	{
+		eat_count = -1;
+		done_eating(params);
+	}
+	return (eat_count);
+}
+
 void	*eat_sleep_think(void *arg)
 {
 	t_philo	*philo;
@@ -48,28 +73,12 @@ void	*eat_sleep_think(void *arg)
 	while (!someone_died(philo->params) && !everyone_done_eating(philo->params))
 	{
 		eat(philo->params, philo->id);
-		if (eat_count > 0)
-			eat_count--;
-		if (eat_count == 0)
-		{
-			eat_count = -1;
-			done_eating(philo->params);
-		}
+		eat_count = update_eat_count(eat_count, philo->params);
 		print_action(philo->id, philo->params, SLEEP);
 		usleep(philo->params->time_to_sleep * 1000);
 		print_action(philo->id, philo->params, THINK);
 		usleep(PAUSE);
 	}
-	free(arg);
-	return (NULL);
-}
-
-void	*solo_philo(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	print_action(philo->id, philo->params, FORK);
 	free(arg);
 	return (NULL);
 }

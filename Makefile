@@ -1,6 +1,6 @@
 NAME = philo
 
-OBJS = main.o init.o start.o eat_sleep_think.o check_death.o free.o utils.o error.o
+OBJS = main.o init.o start.o eat_sleep_think.o check_death.o free.o utils.o utils2.o error.o check_args.o std_fts.o solo_philo.o
 
 HEADS = philo.h
 

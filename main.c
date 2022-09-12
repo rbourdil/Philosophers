@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/12 17:29:25 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/09/12 17:29:40 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	main(int argc, char *argv[])
@@ -7,14 +19,18 @@ int	main(int argc, char *argv[])
 	pthread_t	checker;
 
 	if (argc < 5 || argc > 6)
-		print_exit("invalid number of arguments");
+	{
+		printf("invalid number of arguments\n");
+		input_err_exit();
+	}
+	check_args(argc, argv);
 	bzero(&params, sizeof(t_params));
 	init_params(&params, argc, argv);
 	philo_threads = malloc(sizeof(pthread_t) * params.nb_philos);
 	if (philo_threads == NULL)
 		free_print_exit("memory allocation failed", &params);
 	start_philo_threads(philo_threads, &params);
-	pthread_create(&checker, NULL, check_death, &params); 
+	pthread_create(&checker, NULL, check_death, &params);
 	join_threads(philo_threads, params.nb_philos);
 	pthread_join(checker, NULL);
 	free(philo_threads);

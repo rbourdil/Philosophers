@@ -9,12 +9,13 @@
 
 #include <string.h>
 
-#define PAUSE 999
+#define PAUSE 1500
 #define MICRO_PAUSE 40
 #define FORK 0x1
 #define EAT 0x2
 #define SLEEP 0x4
 #define THINK 0x8
+#define INTMAX "2147483647"
 
 typedef struct s_params {
 	int				nb_philos;
@@ -40,6 +41,10 @@ typedef struct s_philo {
 /* init.c */
 
 void	init_params(t_params *params, int argc, char *argv[]);
+
+/* check_args.c */
+
+void	check_args(int argc, char *argv[]);
 
 /* start.c */
 
@@ -73,5 +78,11 @@ void	join_threads(pthread_t *threads, int n);
 
 void	print_exit(const char *err_msg);
 void	free_print_exit(const char *err_msg, t_params *params);
+void	input_err_exit(void);
+
+/* std_fts.c */
+
+int	ft_isdigit(int c);
+int	ft_strcmp(char *s1, char *s2);
 
 #endif
