@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:44:14 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/09/12 17:45:03 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/09/13 13:52:09 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	someone_died(t_params *params)
 int	isdead(t_params *params, int id)
 {
 	pthread_mutex_lock(&params->time_of_death_mutexes[id]);
-	if (params->time_of_death[id] < now())
+	if (params->time_of_death[id] <= now())
 	{
 		pthread_mutex_unlock(&params->time_of_death_mutexes[id]);
 		pthread_mutex_lock(&params->death_mutex);

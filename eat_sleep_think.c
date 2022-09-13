@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:27:40 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/09/12 18:07:35 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/09/13 13:53:35 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	*eat_sleep_think(void *arg)
 	}
 	if (philo->id % 2 == 0)
 		usleep(PAUSE);
-	while (!someone_died(philo->params) && !everyone_done_eating(philo->params))
+	while (!isdead(philo->params, philo->id && !someone_died(philo->params) \
+	&& !everyone_done_eating(philo->params)))
 	{
 		eat(philo->params, philo->id);
 		eat_count = update_eat_count(eat_count, philo->params);
