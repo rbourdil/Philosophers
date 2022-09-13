@@ -1,21 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/13 14:39:58 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/09/13 14:40:07 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <stdio.h>
-#include <unistd.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <stdio.h>
+# include <unistd.h>
 
-#include <string.h>
-
-#define PAUSE 1500
-#define MICRO_PAUSE 40
-#define FORK 0x1
-#define EAT 0x2
-#define SLEEP 0x4
-#define THINK 0x8
-#define INTMAX "2147483647"
+# define PAUSE 1500
+# define MICRO_PAUSE 40
+# define FORK 0x1
+# define EAT 0x2
+# define SLEEP 0x4
+# define THINK 0x8
+# define INTMAX "2147483647"
 
 typedef struct s_params {
 	int				nb_philos;
@@ -82,7 +92,9 @@ void	input_err_exit(void);
 
 /* std_fts.c */
 
-int	ft_isdigit(int c);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_isdigit(int c);
+int		ft_strcmp(char *s1, char *s2);
+void	ft_memset(void *s, int c, size_t n);	
+int		ft_atoi(char *s);
 
 #endif

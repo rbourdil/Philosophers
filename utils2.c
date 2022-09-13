@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:45:50 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/09/12 17:45:51 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:38:30 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	done_eating(t_params *params)
 int	everyone_done_eating(t_params *params)
 {
 	pthread_mutex_lock(&params->nb_done_eating_mutex);
-	if (params->nb_done_eating == params->nb_philos)
+	if (params->nb_done_eating == params->eat_count)
 	{
 		pthread_mutex_unlock(&params->nb_done_eating_mutex);
 		return (1);

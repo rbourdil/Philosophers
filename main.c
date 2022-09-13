@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:29:25 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/09/12 17:29:40 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:11:11 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char *argv[])
 		input_err_exit();
 	}
 	check_args(argc, argv);
-	bzero(&params, sizeof(t_params));
+	ft_memset(&params, '\0', sizeof(t_params));
 	init_params(&params, argc, argv);
 	philo_threads = malloc(sizeof(pthread_t) * params.nb_philos);
 	if (philo_threads == NULL)

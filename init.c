@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 17:29:15 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/09/12 17:29:17 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:05:34 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	init_command_line_params(t_params *params, int argc, char *argv[])
 {
-	params->time_to_die = atoi(argv[2]);
-	params->time_to_eat = atoi(argv[3]);
-	params->time_to_sleep = atoi(argv[4]);
+	params->time_to_die = ft_atoi(argv[2]);
+	params->time_to_eat = ft_atoi(argv[3]);
+	params->time_to_sleep = ft_atoi(argv[4]);
 	if (argc > 5)
-		params->eat_count = atoi(argv[5]);
+		params->eat_count = ft_atoi(argv[5]);
 	else
 		params->eat_count = -1;
 }
@@ -69,7 +69,7 @@ void	init_params(t_params *params, int argc, char *argv[])
 {
 	int	nb_philos;
 
-	nb_philos = atoi(argv[1]);
+	nb_philos = ft_atoi(argv[1]);
 	params->nb_philos = nb_philos;
 	params->death = 0;
 	params->nb_done_eating = 0;
